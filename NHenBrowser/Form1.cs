@@ -57,6 +57,7 @@ namespace NHenBrowser
             ChromeBrowser.Dock = DockStyle.Fill;
             ChromeBrowser.AddressChanged += Chrome_AddressChanged;
             ChromeBrowser.TitleChanged += Chrome_TittleChanged;
+            timer2.Enabled = true;
         }
 
         private void Chrome_AddressChanged(object sender, AddressChangedEventArgs e)
@@ -156,6 +157,8 @@ namespace NHenBrowser
                     }
                     TabPage current = tabControl1.SelectedTab;
                     ChromeBrowser.Parent = current;
+                    if (ChromeBrowser.CanGoBack)
+                        toolStripButton1.Enabled = true;
                 }
             }  
                      
@@ -217,6 +220,9 @@ namespace NHenBrowser
                 {
                     if (ChromeBrowser.CanGoForward)
                         ChromeBrowser.Forward();
+
+                    TabPage current = tabControl1.SelectedTab;
+                    ChromeBrowser.Parent = current;
                 }
             }
         }
@@ -258,5 +264,33 @@ namespace NHenBrowser
             TabPage current = tabControl1.SelectedTab;
             tabControl1.Controls.Remove(current);
         }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (tabControl1.TabCount > 0)
+            {
+                ChromiumWebBrowser ChromeBrowser = tabControl1.SelectedTab.Controls[0] as ChromiumWebBrowser;
+                
+                if (ChromeBrowser != null)
+                {
+                    if (ChromeBrowser.CanGoForward)
+                    {
+                        if (ChromeBrowser.CanGoForward)
+                        {
+                            toolStripSplitButton1.Enabled = true;
+                        }
+
+                        if (ChromeBrowser.CanGoBack)
+                        { 
+                            toolStripButton1.Enabled = true;
+                        }
+                        TabPage current = tabControl1.SelectedTab;
+                        ChromeBrowser.Parent = current;
+                    }
+                }
+            }
+            
+        }
+
     }
 }
